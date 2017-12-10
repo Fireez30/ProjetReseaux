@@ -15,7 +15,7 @@ if (argc!=1){
 	return -1;
 }
 
-File * fp;
+FILE * fp;
 int port=3271;
 int taillerecu=0;
 
@@ -43,25 +43,27 @@ socklen_t lgA = sizeof(struct sockaddr_in);
 
 int dSClient=accept(dSock,(struct sockaddr *) &adClient,&lgA);// jaccepte la demande du client et je stocke son adresse dans adClient
 
-int taillefic=recv(dSClient,&taillefic,sizeof(int),0);// le client m'envoie la taille du fichier total 
-if (taille==-1){
+int taillefic;
+
+int taillefichier=recv(dSClient,&taillefic,sizeof(int),0);// le client m'envoie la taille du fichier total 
+if (taillefichier==-1){
 	printf("Erreur lors de la reception de la taille du fichier !");
 	return -1;
 }
 printf("taille du fichier a recevoir: %d\n",taillefic);
 
-
-int tnm=recv(dSClient,&taillenom,sizeof(int),0);//Je dois récuperer le nom du fichier donc je recupere la taille du nom pour faire le buffer
+int taillenom;
+int tnm=recv(dSClient,&taillenom,sizeof(taillenom),0);//Je dois récuperer le nom du fichier donc je recupere la taille du nom pour faire le buffer
 if (tnm==-1){
 	printf("Erreur lors de la reception de la taille du nom !");
 	return -1;
 }
+printf("%d octets recus \n",tnm);
+printf("taille du nom du fichier a recevoir: %d\n",taillenom);
 
-printf("taille du nom du fichier a recevoir: %d\n",tnm);
+char nom[taillenom];// buffer qui stockera le nom du fihchier
 
-char nom[tnm];// buffer qui stockera le nom du fihchier
-
-int resn=recv(dSClient,&tnm,sizeof(nom),0);//buffer pret je peux recevoir le nom de mon fichier
+int resn=recv(dSClient,&nom,sizeof(nom),0);//buffer pret je peux recevoir le nom de mon fichier
 if (resn==-1){
 	printf("Erreur lors de la reception du nom !");
 	return -1;
@@ -73,7 +75,7 @@ fp = fopen(nom,"w");//je créer le fichier du coté du serveur, avec son nom , q
 int sumreception = 0;
 
 while (sumreception < taillefic){// tant que j'ai pas recu l'ensemble du fichier :
-	char[100] buff2;
+	char buff2[100];
 	int partial = recv(dSClient,&buff2,sizeof(buff2),0);//je recois jusqua 100 octets du fichier 
 	if (partial == -1){
 		printf("Erreur lors de la reception partielle ");
