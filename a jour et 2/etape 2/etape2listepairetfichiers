@@ -1,0 +1,97 @@
+client reception liste peer du serveur
+
+typedef struct {
+	char* nom;
+	int taille;
+} fichier;
+
+typedef struct {
+	char* adresse;
+	short port;
+	int nbfichiers;
+	fichier* fichiers
+} client;
+
+function() {
+	
+	int nbclient;
+
+int resn=recv(dSock,nbclient,sizeof(nbclient),0);//buffer pret je peux recevoir le nombre de clients
+	printf("Erreur lors de la reception du nombre de client !");
+	return -1;
+}
+
+for (int i=0;i<nbclient;i++){
+	struct client c1;
+
+	char * adresse;
+
+int ad=recv(dSock,&adresse,sizeof(adR.sin_addr.s_addr),0);//buffer pret je peux recevoir l'adresse du peer
+if (ad==-1){
+	printf("Erreur lors de la reception de l'adresse !");
+	return -1;
+}	
+
+	c1.adresse=adresse;
+
+	short porttemp;
+
+int p=recv(dSock,&porttemp,sizeof(porttemp),0);//buffer pret je peux recevoir le port du peer
+if (p==-1){
+	printf("Erreur lors de la reception du port !");
+	return -1;
+}	
+
+	c1.port=porttemp;
+
+	int nbfictemp;
+int f=recv(dSock,&nbfictemp,sizeof(nbfictemp),0);//buffer pret je peux recevoir le nb de fichiers
+if (f==-1){
+	printf("Erreur lors de la reception du nb de fichiers!");
+	return -1;
+}
+
+c1.nbfichiers=nbfictemp;	
+
+
+for (int j=0;j<nbfictemp; j++){
+	struct fichier f1;
+	char * nomfictemp;
+
+	int taillenomfic;
+
+int tnf=recv(dSock,&taillenomfic,sizeof(taillenomfic),0);//buffer pret je peux recevoir le nom de mon fichier
+if (tnf==-1){
+	printf("Erreur lors de la reception du nb de fichiers!");
+	return -1;
+}
+
+
+	char nomfic1[taillenomfic];
+
+	int nmfic=recv(dSock,&nomfic1,taillenomfic,0);//buffer pret je peux recevoir l'adresse du peer
+if (nmfic==-1){
+	printf("Erreur lors de la reception de l'adresse !");
+	return -1;
+}
+
+	for(int i=0;i<taillenomfic;i++){
+		f1.nom[i]=nomfic1[i];
+	}
+
+	int tailletotale;
+
+int etf=recv(dSock,&tailletotale,sizeof(tailletotale),0);//buffer pret je peux recevoir le nom de mon fichier
+if (etf==-1){
+	printf("Erreur lors de la reception du nb de fichiers!");
+	return -1;
+}
+
+f1.taille=tailletotale;
+
+c1.fichiers[j]=f1;
+}
+
+}
+
+}

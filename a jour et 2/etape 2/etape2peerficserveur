@@ -1,0 +1,56 @@
+
+int nbclients//on a deja
+
+int resnbcl=send(dSock,&nbclients,sizeof(int),0);//j'envoie le nb de clients connectés au serveur
+if (res4 == -1){
+	printf("Erreur lors de l'envoi de la taille du nombre de clients ! ");
+	return -1;
+}
+
+
+for(int i=0;i<nbclient;i++){//pour chaque client
+
+int resadr=send(dSock,&clients[i].adresse,sizeof(clients[i].adresse),0);//j'envoie son adresse
+	printf("Erreur lors de l'envoi de l'adresse' ! ");
+	return -1;
+}
+
+int resport=send(dSock,&clients[i].port,sizeof(clients[i].port),0);//j'envoie son port
+if (resport == -1){
+	printf("Erreur lors de l'envoi du port ! ");
+	return -1;
+}
+
+int resnbficc=send(dSock,&clients[i].nbfichiers,sizeof(clients[i].nbfichiers),0);//j'envoie son nombre de fichiers
+if (resnbficc == -1){
+	printf("Erreur lors de l'envoi du nombre de fichiers ! ");
+	return -1;
+}
+
+for (int j=0;j<clients[i].nbfichiers;j++){
+	
+	int taillenmfic = sizeof(clients[i].fichiers[j].nom);
+	int restnf=send(dSock,&ntaillenmfic,sizeof(int),0);//j'envoie la taille du nom du fic
+if (restnf == -1){
+	printf("Erreur lors de l'envoi de la taille du nom ! ");
+	return -1;
+}
+
+int resnmf=send(dSock,&clients[i].fichiers[j].nom,sizeof(clients[i].fichiers[j].nom),0);//j'envoie son nom
+	if (resnmf == -1){
+	printf("Erreur lors de l'envoi de l'adresse' ! ");
+	return -1;
+}
+
+	int restfic=send(dSock,clients[i].fichiers[j].taille,sizeof(int),0);//j'envoie la taille  du fic
+if (restfic == -1){
+	printf("Erreur lors de l'envoi de la taille du fic du peer! ");
+	return -1;
+}
+
+
+}
+
+
+
+}
